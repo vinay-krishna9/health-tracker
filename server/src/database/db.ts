@@ -1,14 +1,5 @@
-import { Pool } from "pg";
-import dotenv from "dotenv";
+import { PrismaClient } from "@prisma/client";
 
-dotenv.config();
+const prisma = new PrismaClient();
 
-if (!process.env.DATABASE_URL) {
-  throw new Error("DATABASE_URL is not set in .env file");
-}
-
-const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-});
-
-export default pool;
+export default prisma;
