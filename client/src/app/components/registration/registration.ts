@@ -2,7 +2,8 @@ import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../service/auth-service';
-import { User } from '../../models/auth';
+import { RegistrationRequest, User } from '../../models/auth';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-registration',
@@ -12,8 +13,10 @@ import { User } from '../../models/auth';
 })
 export class Registration {
   private fb = inject(FormBuilder);
+  private _auth = inject(AuthService);
+  private router = inject(Router);
 
-  constructor(private _auth: AuthService) {}
+  errorMessage!: string;
 
   registrationForm = this.fb.group({
     name: ['', [Validators.required, Validators.minLength(5)]],
@@ -30,14 +33,21 @@ export class Registration {
   });
 
   onSubmit() {
-    const registration: User = {
+    const registration: RegistrationRequest = {
       name: this.registrationForm.value.name!,
       email: this.registrationForm.value.email!,
       password: this.registrationForm.value.password!,
     };
 
-    this._auth.registration(registration).subscribe((res) => {
-      console.log(res);
-    });
+    this._auth.registration(registration).subscribe(
+      (response) => {
+        localStorage.setItem('token', response.token);
+        this.registrationForm.reset();
+        this.router.navigate(['/home']);
+      },
+      (error) => {
+        this.errorMessage = error.error.message;
+      }
+    );
   }
 }
