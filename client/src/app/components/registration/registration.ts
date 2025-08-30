@@ -41,7 +41,7 @@ export class Registration {
 
     this._auth.registration(registration).subscribe(
       (response) => {
-        localStorage.setItem('token', response.token);
+        localStorage.setItem('token', btoa(response.token));
         this.registrationForm.reset();
         this.router.navigate(['/home']);
       },

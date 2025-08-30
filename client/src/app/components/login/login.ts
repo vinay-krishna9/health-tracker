@@ -39,7 +39,7 @@ export class Login {
 
     this._auth.login(login).subscribe(
       (response) => {
-        localStorage.setItem('token', response.token);
+        localStorage.setItem('token', btoa(response.token));
         this.loginForm.reset();
         this.router.navigate(['/home']);
       },
