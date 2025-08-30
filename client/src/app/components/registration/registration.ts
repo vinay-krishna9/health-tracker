@@ -1,6 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AuthService } from '../../service/auth-service';
+import { User } from '../../models/auth';
 
 @Component({
   selector: 'app-registration',
@@ -10,6 +12,8 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 })
 export class Registration {
   private fb = inject(FormBuilder);
+
+  constructor(private _auth: AuthService) {}
 
   registrationForm = this.fb.group({
     name: ['', [Validators.required, Validators.minLength(5)]],
@@ -26,6 +30,14 @@ export class Registration {
   });
 
   onSubmit() {
-    console.log(this.registrationForm.value);
+    const registration: User = {
+      name: this.registrationForm.value.name!,
+      email: this.registrationForm.value.email!,
+      password: this.registrationForm.value.password!,
+    };
+
+    this._auth.registration(registration).subscribe((res) => {
+      console.log(res);
+    });
   }
 }
