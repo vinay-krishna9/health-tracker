@@ -1,0 +1,81 @@
+<div class="container-lg min-vh-100 py-5 d-flex flex-column align-items-center">
+  <h1 class="mb-5">REGISTERATION</h1>
+  <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()" class="w-50">
+    <div class="mb-3">
+      <h4 for="email" class="form-label">Email address</h4>
+      <input
+        type="email"
+        required
+        formControlName="email"
+        class="form-control mb-2"
+        id="email"
+        aria-describedby="email"
+      />
+      <div class="caption" id="email">We'll never share your email with anyone else.</div>
+      <div
+        class="error"
+        *ngIf="registrationForm.get('email')?.dirty && registrationForm.get('email')?.invalid"
+      >
+        <span *ngIf="registrationForm.get('email')?.errors?.['required']">Email is required.</span>
+        <span *ngIf="registrationForm.get('email')?.errors?.['email']">Enter a valid email.</span>
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <h4 for="name" class="form-label">Name</h4>
+      <input
+        type="name"
+        required
+        formControlName="name"
+        class="form-control mb-2"
+        id="name"
+        aria-describedby="name"
+      />
+      <div
+        class="error"
+        *ngIf="registrationForm.get('name')?.dirty && registrationForm.get('name')?.invalid"
+      >
+        <span *ngIf="registrationForm.get('name')?.errors?.['required']">Name is required.</span>
+        <span *ngIf="registrationForm.get('name')?.errors?.['minlength']">
+          Name must be at least 5 characters.
+        </span>
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <h4 for="password" class="form-label">Password</h4>
+      <input
+        type="password"
+        required
+        formControlName="password"
+        class="form-control mb-2"
+        id="password"
+      />
+      <div
+        class="error"
+        *ngIf="registrationForm.get('password')?.dirty && registrationForm.get('password')?.invalid"
+      >
+        <span *ngIf="registrationForm.get('password')?.errors?.['required']"
+          >Password is required.</span
+        >
+        <span *ngIf="registrationForm.get('password')?.errors?.['pattern']">
+          Password must contain at least: one uppercase letter, one lowercase letter, one number,
+          and one special character. </span
+        ><br />
+        <span *ngIf="registrationForm.get('password')?.errors?.['minlength']">
+          Password must be at least 8 characters.
+        </span>
+
+        <span *ngIf="registrationForm.get('password')?.errors?.['maxlength']">
+          Password must be at most 15 characters.
+        </span>
+      </div>
+    </div>
+
+    <button class="mt-3 cursor-pointer" type="submit" [disabled]="!registrationForm.valid">
+      Submit
+    </button>
+
+    <div class="error">{{ errorMessage }}</div>
+  </form>
+</div>

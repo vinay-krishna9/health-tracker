@@ -5,7 +5,7 @@ import jwt from "jsonwebtoken";
 
 export const registerUser = async (req: Request, res: Response) => {
   try {
-    console.log("🚀 Registering User ~", req.body);
+    console.log("🚀 Registering User ");
 
     const { name, email, password } = req.body;
 
@@ -59,7 +59,7 @@ export const registerUser = async (req: Request, res: Response) => {
 
 export const loginUser = async (req: Request, res: Response) => {
   try {
-    console.log("🚀 Loggin In User ~", req.body);
+    console.log("🚀 Logging in User");
 
     const { email, password } = req.body;
 
