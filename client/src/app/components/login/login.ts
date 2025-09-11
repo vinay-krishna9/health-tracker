@@ -39,11 +39,15 @@ export class Login {
 
     this._auth.login(login).subscribe(
       (response) => {
-        localStorage.setItem('token', btoa(response.token));
+        console.log('res', response);
+
+        localStorage.setItem('token', response.token);
         this.loginForm.reset();
         this.router.navigate(['/home']);
       },
       (error) => {
+        console.log('error', error.error);
+
         this.errorMessage = error.error.message;
       }
     );

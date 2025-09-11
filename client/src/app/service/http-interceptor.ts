@@ -8,7 +8,7 @@ const excludedUrls = ['/auth/login', '/auth/register'];
 const isTokenExpired = (token: string): boolean => {
   try {
     const payload = JSON.parse(atob(token.split('.')[1]));
-    const expiry = payload.exp * 1000; // exp is seconds → ms
+    const expiry = payload.exp * 1000;
     return Date.now() > expiry;
   } catch {
     return true;
@@ -17,13 +17,13 @@ const isTokenExpired = (token: string): boolean => {
 
 export const httpInterceptor: HttpInterceptorFn = (req, next) => {
   const router = inject(Router);
-  const encodedToken = localStorage.getItem('token') || '';
-  const token = atob(encodedToken);
 
   // 🚫 Skip auth header for excluded URLs
   if (excludedUrls.some((url) => req.url.includes(url))) {
     return next(req);
   }
+
+  const token = localStorage.getItem('token');
 
   // 🔑 Check token validity before sending
   if (token && isTokenExpired(token)) {
