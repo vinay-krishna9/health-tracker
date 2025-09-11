@@ -50,7 +50,7 @@ export const registerUser = async (req: Request, res: Response) => {
       { expiresIn: "1h" }
     );
 
-    res.status(201).json({ token });
+    res.status(201).json({ name, email, token });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Something went wrong" });
@@ -87,7 +87,7 @@ export const loginUser = async (req: Request, res: Response) => {
       { expiresIn: "1h" }
     );
 
-    res.status(200).json({ token });
+    res.status(200).json({ name: user.name, email, token });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Something went wrong" });
