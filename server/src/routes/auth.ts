@@ -5,6 +5,7 @@ import { loginLimiter } from "../utils/loginLimiter";
 const router = express.Router();
 
 router.post("/register", registerUser);
-router.post("/login", loginLimiter, loginUser);
+// router.post("/login", loginLimiter, loginUser);
+router.post("/login", loginUser);
 
 export default router;

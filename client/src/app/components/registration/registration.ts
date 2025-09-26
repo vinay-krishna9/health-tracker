@@ -2,8 +2,10 @@ import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../service/auth-service';
-import { RegistrationRequest, User } from '../../models/auth';
+import { RegistrationRequest } from '../../models/auth';
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import * as AuthActions from '../../store/auth/actions';
 
 @Component({
   selector: 'app-registration',
@@ -15,6 +17,7 @@ export class Registration {
   private fb = inject(FormBuilder);
   private _auth = inject(AuthService);
   private router = inject(Router);
+  private store = inject(Store);
 
   errorMessage!: string;
 
@@ -33,21 +36,12 @@ export class Registration {
   });
 
   onSubmit() {
-    const registration: RegistrationRequest = {
+    const credentials: RegistrationRequest = {
       name: this.registrationForm.value.name!,
       email: this.registrationForm.value.email!,
       password: this.registrationForm.value.password!,
     };
 
-    this._auth.registration(registration).subscribe(
-      (response) => {
-        localStorage.setItem('token', btoa(response.token));
-        this.registrationForm.reset();
-        this.router.navigate(['/home']);
-      },
-      (error) => {
-        this.errorMessage = error.error.message;
-      }
-    );
+    this.store.dispatch(AuthActions.register({ credentials }));
   }
 }
