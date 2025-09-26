@@ -17,8 +17,13 @@ export class AuthService {
     return !!token;
   }
 
-  registration(registrationDetails: RegistrationRequest): Observable<{ token: string }> {
-    return this.http.post<{ token: string }>(`${this.apiUrl}/auth/register`, registrationDetails);
+  registration(
+    registrationDetails: RegistrationRequest
+  ): Observable<{ email: string; name: string; token: string }> {
+    return this.http.post<{ email: string; name: string; token: string }>(
+      `${this.apiUrl}/auth/register`,
+      registrationDetails
+    );
   }
 
   login(loginDetails: LoginRequest): Observable<{ email: string; name: string; token: string }> {

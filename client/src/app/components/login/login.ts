@@ -3,11 +3,11 @@ import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../service/auth-service';
 import { Router } from '@angular/router';
-import { AuthResponse, LoginRequest } from '../../models/auth';
 import { Observable, Subject } from 'rxjs';
 import { Store } from '@ngrx/store';
 import * as AuthActions from '../../store/auth/actions';
 import * as AuthSelectors from '../../store/auth/selectors';
+import { LoginRequest } from '../../models/auth';
 
 @Component({
   selector: 'app-login',

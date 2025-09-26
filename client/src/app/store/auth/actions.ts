@@ -1,5 +1,18 @@
 import { createAction, props } from '@ngrx/store';
 
+// Register Actions
+export const register = createAction(
+  '[Auth] Register',
+  props<{ credentials: { email: string; name: string; password: string } }>()
+);
+
+export const registerSuccess = createAction(
+  '[Auth] Register Success',
+  props<{ name: string; email: string; token: string }>()
+);
+
+export const registerFailure = createAction('[Auth] Register Failure', props<{ error: string }>());
+
 // Login Actions
 export const login = createAction(
   '[Auth] Login',

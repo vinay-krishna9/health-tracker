@@ -12,6 +12,43 @@ export class AuthEffects {
   private authService = inject(AuthService);
   private router = inject(Router);
 
+  register$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.register),
+      mergeMap((action) =>
+        this.authService.registration(action.credentials).pipe(
+          map((response) =>
+            AuthActions.registerSuccess({
+              name: response.name,
+              email: response.email,
+              token: response.token,
+            })
+          ),
+          catchError((error) =>
+            of(
+              AuthActions.registerFailure({
+                error: error.message || 'Login failed',
+              })
+            )
+          )
+        )
+      )
+    )
+  );
+
+  registerSuccess$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(AuthActions.registerSuccess),
+        tap(({ name, email, token }) => {
+          localStorage.setItem('auth_token', token);
+          localStorage.setItem('user_data', JSON.stringify({ name, email }));
+          this.router.navigate(['home']);
+        })
+      ),
+    { dispatch: false }
+  );
+
   login$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.login),
