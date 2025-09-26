@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../service/auth-service';
-import { RegistrationRequest, User } from '../../models/auth';
+import { RegistrationRequest } from '../../models/auth';
 import { Router } from '@angular/router';
 
 @Component({
@@ -41,7 +41,7 @@ export class Registration {
 
     this._auth.registration(registration).subscribe(
       (response) => {
-        localStorage.setItem('token', response.token);
+        localStorage.setItem('auth_token', response.token);
         this.registrationForm.reset();
         this.router.navigate(['/home']);
       },

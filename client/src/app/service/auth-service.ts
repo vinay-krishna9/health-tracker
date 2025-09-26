@@ -13,7 +13,7 @@ export class AuthService {
   private http = inject(HttpClient);
 
   isAuthenticated(): boolean {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('auth_token');
     return !!token;
   }
 
@@ -21,7 +21,10 @@ export class AuthService {
     return this.http.post<{ token: string }>(`${this.apiUrl}/auth/register`, registrationDetails);
   }
 
-  login(loginDetails: LoginRequest): Observable<{ token: string }> {
-    return this.http.post<{ token: string }>(`${this.apiUrl}/auth/login`, loginDetails);
+  login(loginDetails: LoginRequest): Observable<{ email: string; name: string; token: string }> {
+    return this.http.post<{ email: string; name: string; token: string }>(
+      `${this.apiUrl}/auth/login`,
+      loginDetails
+    );
   }
 }

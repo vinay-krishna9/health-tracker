@@ -1,5 +1,8 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, Signal } from '@angular/core';
 import { ApiService } from '../../service/api-service';
+import { AuthResponse } from '../../models/auth';
+import { Store } from '@ngrx/store';
+import * as AuthSelectors from '../../store/auth/selectors';
 
 @Component({
   selector: 'app-home',
@@ -9,6 +12,13 @@ import { ApiService } from '../../service/api-service';
 })
 export class Home implements OnInit {
   private _api = inject(ApiService);
+  private store = inject(Store);
+
+  user$: Signal<AuthResponse | null>;
+
+  constructor() {
+    this.user$ = this.store.selectSignal(AuthSelectors.selectUser);
+  }
 
   ngOnInit(): void {
     this.getUser();

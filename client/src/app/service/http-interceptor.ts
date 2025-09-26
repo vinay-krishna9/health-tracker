@@ -23,11 +23,11 @@ export const httpInterceptor: HttpInterceptorFn = (req, next) => {
     return next(req);
   }
 
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem('auth_token');
 
   // 🔑 Check token validity before sending
   if (token && isTokenExpired(token)) {
-    localStorage.removeItem('token');
+    localStorage.removeItem('auth_token');
     router.navigate(['/login']);
     throw new Error('Token expired');
   }
@@ -45,7 +45,7 @@ export const httpInterceptor: HttpInterceptorFn = (req, next) => {
     catchError((error) => {
       if (error.status === 401) {
         // Token expired or unauthorized → logout user
-        localStorage.removeItem('token');
+        localStorage.removeItem('auth_token');
         router.navigate(['/login']);
       }
       return throwError(() => error);
